@@ -12,15 +12,15 @@ public class NoteObject : MonoBehaviour
     [SerializeField] private Vector3 perfectScale = Vector3.one;
     [SerializeField] private Vector3 endScale = new Vector3(1.5f, 1.5f, 1.5f);
     
-    [Header("Pengaturan Gerakan")]
-    [SerializeField] private float movementRadius = 0.5f;
-    [SerializeField] private float movementSpeed = 1f;
+    [Header("Pengaturan Gerakan Mengambang")]
+    [SerializeField] private float hoverSpeed = 1f;
+    [SerializeField] private float hoverAmplitude = 0.2f;
     
     private float timer = 0f;
-    private Vector3 initialPosition;
-    private Vector3 targetPosition;
     private RhythmController rhythmController; 
     private SpriteRenderer spriteRenderer;
+
+    private Vector3 initialPosition;
 
     void Awake()
     {
@@ -35,8 +35,8 @@ public class NoteObject : MonoBehaviour
     void Start()
     {
         AudioManager.Instance.PlaySFX("Bubble-pop");
+        
         initialPosition = transform.position;
-        targetPosition = initialPosition + (Vector3)(Random.insideUnitCircle * movementRadius);
 
         Color startColor = spriteRenderer.color;
         startColor.a = 0f;
@@ -47,6 +47,7 @@ public class NoteObject : MonoBehaviour
     {
         timer += Time.deltaTime;
 
+        // Logika Skala & Opacity
         if (timer < growDuration)
         {
             float progress = timer / growDuration;
@@ -59,7 +60,6 @@ public class NoteObject : MonoBehaviour
         else if (timer < growDuration + perfectWindowDuration)
         {
             transform.localScale = perfectScale;
-
             Color newColor = spriteRenderer.color;
             newColor.a = 1f;
             spriteRenderer.color = newColor;
@@ -71,33 +71,30 @@ public class NoteObject : MonoBehaviour
         }
         else
         {
-            AudioManager.Instance.PlaySFX("Bubble-miss"); 
+            AudioManager.Instance.PlaySFX("Bubble-miss");
             rhythmController.NoteMissed();
             Destroy(gameObject);
         }
 
-        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * movementSpeed);
+        // Logika Gerakan Mengambang
+        float offsetX = Mathf.Sin(timer * hoverSpeed) * hoverAmplitude;
+        float offsetY = Mathf.Cos(timer * hoverSpeed) * hoverAmplitude;
+        transform.position = initialPosition + new Vector3(offsetX, offsetY, 0);
     }
 
     private void OnMouseDown()
     {
-        // SFX tidak diubah sesuai permintaan
         AudioManager.Instance.PlaySFX("Button-click"); 
         
         Accuracy accuracy;
-
-        // Jendela "Sempurna"
         if (timer >= growDuration && timer < growDuration + perfectWindowDuration)
         {
             accuracy = Accuracy.Perfect;
         }
-        // PERUBAHAN UTAMA: Jendela "Baik" sekarang lebih besar
-        // Dimulai dari 50% masa pertumbuhan hingga sesaat sebelum jendela "Sempurna"
-        else if (timer >= growDuration * 0.2f && timer < growDuration) 
+        else if (timer >= growDuration * 0.5f && timer < growDuration) 
         {
             accuracy = Accuracy.Good;
         }
-        // Jika diklik terlalu cepat atau sudah lewat, dianggap "Miss"
         else
         {
             accuracy = Accuracy.Miss;

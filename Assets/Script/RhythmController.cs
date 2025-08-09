@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 [System.Serializable]
 public class NoteInfo
@@ -31,6 +32,7 @@ public class RhythmController : MonoBehaviour
     public Image harmonyImage; 
     public Image comboImage;
     public Sprite comboActiveSprite;
+    public TextMeshProUGUI scoreText;
 
     [Header("Referensi Akhir Level")]
     public string nextSceneName;
@@ -49,25 +51,26 @@ public class RhythmController : MonoBehaviour
     public Sprite[] backgroundStages;
     private int currentBackgroundStage = 0;
 
+    [Header("Pengaturan Efek Visual")]
+    [SerializeField] private float perfectShakeDuration = 0.1f;
+    [SerializeField] private float perfectShakeMagnitude = 0.05f;
+
     void Start()
     {
-        // DIKEMBALIKAN: Musik dimulai TEPAT saat level mulai.
         AudioManager.Instance.PlayBGM(songClip.name);
-
         levelEnded = false;
         harmonyImage.fillAmount = 0;
         
-        if (gameOverPanel != null)
-        {
-            gameOverPanel.SetActive(false);
-        }
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (comboImage != null) comboImage.enabled = false;
         
-        if (comboImage != null)
-        {
-            comboImage.enabled = false;
-        }
         perfectStreak = 0;
         isComboActive = false;
+
+        if (scoreText != null)
+        {
+            scoreText.text = "Poin : 0/" + targetScore;
+        }
 
         if (backgroundStages.Length > 0)
         {
@@ -81,16 +84,12 @@ public class RhythmController : MonoBehaviour
     void Update()
     {
         if (levelEnded) return;
-
-        // Waktu lagu akan terus berjalan sejak awal karena musik sudah diputar di Start()
         songTime = AudioManager.Instance.BGMSource.time;
-
         if (songTime >= levelDuration)
         {
             EndLevel();
             return;
         }
-
         if (nextNoteIndex < notes.Count && songTime >= notes[nextNoteIndex].timestamp)
         {
             SpawnNote();
@@ -109,9 +108,7 @@ public class RhythmController : MonoBehaviour
         else
         {
             if (gameOverPanel != null)
-            {
                 gameOverPanel.SetActive(true);
-            }
         }
     }
 
@@ -127,10 +124,12 @@ public class RhythmController : MonoBehaviour
 
     public void NoteHit(Accuracy accuracy)
     {
-        // DIHAPUS: Logika untuk memulai game dari sini dihapus.
-        
         if (accuracy == Accuracy.Perfect)
         {
+            if (CameraShake.Instance != null)
+            {
+                CameraShake.Instance.Shake(perfectShakeDuration, perfectShakeMagnitude);
+            }
             perfectStreak++;
             if (!isComboActive && perfectStreak >= 5)
             {
@@ -149,7 +148,6 @@ public class RhythmController : MonoBehaviour
         if (isComboActive) { currentScore += points * 2; }
         else { currentScore += points; }
 
-        currentScore = Mathf.Clamp(currentScore, 0, targetScore);
         UpdateUI();
     }
 
@@ -163,13 +161,18 @@ public class RhythmController : MonoBehaviour
         }
 
         currentScore -= missPenalty;
-        currentScore = Mathf.Clamp(currentScore, 0, targetScore);
+        
+        currentScore = Mathf.Max(0, currentScore);
+
         UpdateUI();
     }
 
     void UpdateUI()
     {
-        float fillPercentage = (float)currentScore / targetScore;
+
+        int displayScore = Mathf.Min(currentScore, targetScore);
+
+        float fillPercentage = (float)displayScore / targetScore;
         harmonyImage.fillAmount = Mathf.Clamp01(fillPercentage);
 
         int requiredStage = Mathf.FloorToInt(fillPercentage / 0.2f);
@@ -177,6 +180,11 @@ public class RhythmController : MonoBehaviour
         {
             currentBackgroundStage = requiredStage;
             StartCoroutine(ChangeBackground(currentBackgroundStage));
+        }
+
+        if (scoreText != null)
+        {
+            scoreText.text = "Poin : " + currentScore + "/" + targetScore;
         }
     }
 
