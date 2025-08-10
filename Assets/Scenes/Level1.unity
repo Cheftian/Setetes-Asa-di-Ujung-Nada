@@ -244,24 +244,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   songClip: {fileID: 8300000, guid: 11bc0b2a1ac7b084db7fed4e3aafaa2c, type: 3}
   notes:
-  - timestamp: 1
-  - timestamp: 3
-  - timestamp: 5
-  - timestamp: 7
-  - timestamp: 9
-  - timestamp: 11
-  - timestamp: 13
-  - timestamp: 15
-  - timestamp: 17
-  - timestamp: 20
-  - timestamp: 21
-  - timestamp: 23
-  - timestamp: 25
-  levelDuration: 30
+  - timestamp: 18
+  - timestamp: 23.5
+  - timestamp: 28
+  - timestamp: 29
+  - timestamp: 33.5
+  - timestamp: 34
+  - timestamp: 39
+  - timestamp: 39.3
+  - timestamp: 39.6
+  - timestamp: 44.3
+  - timestamp: 45
+  - timestamp: 49.6
+  - timestamp: 50
+  - timestamp: 50.3
+  - timestamp: 55.6
+  - timestamp: 61
+  - timestamp: 63
+  - timestamp: 65.3
+  - timestamp: 68.3
+  - timestamp: 71
+  - timestamp: 71.6
+  - timestamp: 74.3
+  - timestamp: 76.3
+  - timestamp: 77
+  - timestamp: 79.6
+  - timestamp: 81.6
+  - timestamp: 82.3
+  - timestamp: 85
+  - timestamp: 87
+  - timestamp: 87.6
+  - timestamp: 90.3
+  - timestamp: 92.3
+  - timestamp: 93
+  - timestamp: 95.6
+  - timestamp: 97.6
+  - timestamp: 98.3
+  - timestamp: 103.6
+  - timestamp: 109
+  - timestamp: 113.6
+  - timestamp: 114.3
+  - timestamp: 119
+  - timestamp: 119.6
+  levelDuration: 133.5
   targetScore: 10000
-  perfectScore: 1000
-  goodScore: 500
-  missPenalty: 1500
+  perfectScore: 200
+  goodScore: 150
+  missPenalty: 75
   notePrefab: {fileID: 1572946567560023603, guid: 527593221521a134fbf606f3f91e50b0, type: 3}
   spawnArea: {fileID: 1370334664}
   harmonyImage: {fileID: 1988816840}

@@ -11,6 +11,8 @@ public class NoteInfo
     public float timestamp;
 }
 
+// DIHAPUS: Kelas ComboStage tidak kita perlukan lagi untuk sistem yang lebih sederhana.
+
 public class RhythmController : MonoBehaviour
 {
     [Header("Data Level")]
@@ -27,16 +29,29 @@ public class RhythmController : MonoBehaviour
     [Header("Pengaturan Gameplay")]
     public GameObject notePrefab;
     public BoxCollider2D spawnArea;
+    [SerializeField] private float maxSpawnDistance = 4f;
     
     [Header("Referensi UI")]
     public Image harmonyImage; 
     public Image comboImage;
-    public Sprite comboActiveSprite;
     public TextMeshProUGUI scoreText;
+    
+    // DIUBAH: Kita hanya butuh satu sprite untuk status kombo aktif.
+    [Header("Pengaturan Gambar Kombo")]
+    public Sprite comboActiveSprite; 
 
     [Header("Referensi Akhir Level")]
     public string nextSceneName;
     public GameObject gameOverPanel;
+
+    [Header("Referensi Latar Belakang")]
+    public SpriteRenderer currentBackground;
+    public SpriteRenderer nextBackground;
+    public Sprite[] backgroundStages;
+
+    [Header("Pengaturan Efek Visual")]
+    [SerializeField] private float perfectShakeDuration = 0.1f;
+    [SerializeField] private float perfectShakeMagnitude = 0.05f;
 
     private int currentScore = 0;
     private int nextNoteIndex = 0;
@@ -44,33 +59,28 @@ public class RhythmController : MonoBehaviour
     private int perfectStreak = 0;
     private bool isComboActive = false;
     private bool levelEnded = false;
-    
-    [Header("Referensi Latar Belakang")]
-    public SpriteRenderer currentBackground;
-    public SpriteRenderer nextBackground;
-    public Sprite[] backgroundStages;
+    private NoteObject lastNoteObject;
     private int currentBackgroundStage = 0;
-
-    [Header("Pengaturan Efek Visual")]
-    [SerializeField] private float perfectShakeDuration = 0.1f;
-    [SerializeField] private float perfectShakeMagnitude = 0.05f;
-
+    private bool isFirstNote = true;
+    
     void Start()
     {
         AudioManager.Instance.PlayBGM(songClip.name);
         levelEnded = false;
-        harmonyImage.fillAmount = 0;
+        isFirstNote = true;
+        lastNoteObject = null;
         
+        harmonyImage.fillAmount = 0;
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
-        if (comboImage != null) comboImage.enabled = false;
+        if (comboImage != null)
+        {
+            comboImage.enabled = false;
+            comboImage.sprite = comboActiveSprite; // Langsung atur spritenya di awal
+        }
+        if (scoreText != null) scoreText.text = "Poin : 0/" + targetScore;
         
         perfectStreak = 0;
         isComboActive = false;
-
-        if (scoreText != null)
-        {
-            scoreText.text = "Poin : 0/" + targetScore;
-        }
 
         if (backgroundStages.Length > 0)
         {
@@ -84,17 +94,76 @@ public class RhythmController : MonoBehaviour
     void Update()
     {
         if (levelEnded) return;
+
         songTime = AudioManager.Instance.BGMSource.time;
-        if (songTime >= levelDuration)
+
+        if (songTime >= levelDuration) 
         {
             EndLevel();
             return;
         }
+        
         if (nextNoteIndex < notes.Count && songTime >= notes[nextNoteIndex].timestamp)
         {
             SpawnNote();
             nextNoteIndex++;
         }
+    }
+    
+    void SpawnNote()
+    {
+        Vector2 spawnPosition = GenerateNextNotePosition();
+        
+        GameObject noteGO = Instantiate(notePrefab, spawnPosition, Quaternion.identity);
+        NoteObject newNoteObject = noteGO.GetComponent<NoteObject>();
+        newNoteObject.Initialize(this);
+        
+        if (lastNoteObject != null && IsChainNote(nextNoteIndex))
+        {
+            lastNoteObject.BecomeBackgroundNote();
+        }
+        
+        lastNoteObject = newNoteObject;
+        isFirstNote = false;
+    }
+
+    bool IsChainNote(int noteIndex)
+    {
+        if (noteIndex > 0 && noteIndex < notes.Count)
+        {
+            if (notes[noteIndex].timestamp - notes[noteIndex - 1].timestamp <= 0.35f)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Vector2 GenerateNextNotePosition()
+    {
+        if (isFirstNote || lastNoteObject == null)
+        {
+            return new Vector2(
+                Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x),
+                Random.Range(spawnArea.bounds.min.y, spawnArea.bounds.max.y)
+            );
+        }
+        
+        if (IsChainNote(nextNoteIndex))
+        {
+            return lastNoteObject.transform.position;
+        }
+
+        Vector2 randomPosition;
+        int attempts = 0;
+        do
+        {
+            randomPosition = (Vector2)lastNoteObject.transform.position + Random.insideUnitCircle * maxSpawnDistance;
+            attempts++;
+            if (attempts > 20) { return spawnArea.bounds.center; }
+        }
+        while (!spawnArea.bounds.Contains(randomPosition));
+        return randomPosition;
     }
 
     void EndLevel()
@@ -112,35 +181,30 @@ public class RhythmController : MonoBehaviour
         }
     }
 
-    void SpawnNote()
-    {
-        float randomX = Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x);
-        float randomY = Random.Range(spawnArea.bounds.min.y, spawnArea.bounds.max.y);
-        Vector2 spawnPosition = new Vector2(randomX, randomY);
-
-        GameObject noteGO = Instantiate(notePrefab, spawnPosition, Quaternion.identity);
-        noteGO.GetComponent<NoteObject>().Initialize(this);
-    }
-
     public void NoteHit(Accuracy accuracy)
     {
+        if (accuracy == Accuracy.Miss)
+        {
+            NoteMissed();
+            return;
+        }
+        
         if (accuracy == Accuracy.Perfect)
         {
+            perfectStreak++;
             if (CameraShake.Instance != null)
             {
                 CameraShake.Instance.Shake(perfectShakeDuration, perfectShakeMagnitude);
             }
-            perfectStreak++;
             if (!isComboActive && perfectStreak >= 5)
             {
                 isComboActive = true;
                 UpdateComboUI();
             }
         }
-        else if (accuracy == Accuracy.Miss)
+        else
         {
-            NoteMissed();
-            return;
+            perfectStreak = 0;
         }
         
         int points = (accuracy == Accuracy.Perfect) ? perfectScore : goodScore;
@@ -159,46 +223,41 @@ public class RhythmController : MonoBehaviour
             isComboActive = false;
             UpdateComboUI();
         }
-
         currentScore -= missPenalty;
-        
-        currentScore = Mathf.Max(0, currentScore);
-
         UpdateUI();
     }
 
     void UpdateUI()
     {
-
+        currentScore = Mathf.Clamp(currentScore, 0, targetScore + perfectScore * 10);
+        
         int displayScore = Mathf.Min(currentScore, targetScore);
-
         float fillPercentage = (float)displayScore / targetScore;
         harmonyImage.fillAmount = Mathf.Clamp01(fillPercentage);
-
-        int requiredStage = Mathf.FloorToInt(fillPercentage / 0.2f);
-        if (requiredStage != currentBackgroundStage && requiredStage < backgroundStages.Length)
-        {
-            currentBackgroundStage = requiredStage;
-            StartCoroutine(ChangeBackground(currentBackgroundStage));
-        }
 
         if (scoreText != null)
         {
             scoreText.text = "Poin : " + currentScore + "/" + targetScore;
         }
+
+        int requiredStage = Mathf.FloorToInt(fillPercentage / 0.2f);
+        if (requiredStage != currentBackgroundStage && requiredStage >= 0 && requiredStage < backgroundStages.Length)
+        {
+            currentBackgroundStage = requiredStage;
+            StartCoroutine(ChangeBackground(currentBackgroundStage));
+        }
     }
 
+    // DIUBAH: Fungsi menjadi lebih sederhana
     void UpdateComboUI()
     {
         if (comboImage == null) return;
-        comboImage.sprite = comboActiveSprite;
         comboImage.enabled = isComboActive;
     }
     
     private IEnumerator ChangeBackground(int stageIndex)
     {
         nextBackground.sprite = backgroundStages[stageIndex];
-        
         float timer = 0f;
         float duration = 1.0f;
         while(timer < duration)
@@ -210,9 +269,7 @@ public class RhythmController : MonoBehaviour
             timer += Time.deltaTime;
             yield return null;
         }
-        
         currentBackground.sprite = nextBackground.sprite;
-        
         Color resetColor = nextBackground.color;
         resetColor.a = 0;
         nextBackground.color = resetColor;

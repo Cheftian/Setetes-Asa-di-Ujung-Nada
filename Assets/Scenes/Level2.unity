@@ -244,24 +244,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   songClip: {fileID: 8300000, guid: d0f3501f616da214dbbf97a9108bf5b8, type: 3}
   notes:
-  - timestamp: 1
-  - timestamp: 3
-  - timestamp: 5
-  - timestamp: 7
+  - timestamp: 8.3
   - timestamp: 9
-  - timestamp: 11
-  - timestamp: 13
+  - timestamp: 9.6
+  - timestamp: 10.3
+  - timestamp: 13.6
+  - timestamp: 14.3
   - timestamp: 15
+  - timestamp: 15.6
   - timestamp: 17
-  - timestamp: 20
+  - timestamp: 19
+  - timestamp: 19.6
+  - timestamp: 20.6
   - timestamp: 21
-  - timestamp: 23
+  - timestamp: 22.3
+  - timestamp: 23.6
   - timestamp: 25
-  levelDuration: 30
+  - timestamp: 26
+  - timestamp: 26.3
+  - timestamp: 27.6
+  - timestamp: 29.6
+  - timestamp: 30.3
+  - timestamp: 31.3
+  - timestamp: 31.6
+  - timestamp: 33
+  - timestamp: 34.3
+  - timestamp: 35.6
+  - timestamp: 36.6
+  - timestamp: 37
+  - timestamp: 38.3
+  - timestamp: 39.3
+  - timestamp: 39.6
+  - timestamp: 41
+  - timestamp: 42
+  - timestamp: 42.3
+  - timestamp: 45
+  - timestamp: 46.3
+  - timestamp: 47.3
+  - timestamp: 47.6
+  - timestamp: 49
+  - timestamp: 50
+  - timestamp: 50.6
+  - timestamp: 52.6
+  - timestamp: 53
+  - timestamp: 55
+  - timestamp: 55.3
+  - timestamp: 55.6
+  - timestamp: 58
+  - timestamp: 58.3
+  - timestamp: 59
+  - timestamp: 61.6
+  - timestamp: 62.3
+  - timestamp: 63.3
+  - timestamp: 63.6
+  - timestamp: 65
+  - timestamp: 66.3
+  - timestamp: 67.6
+  - timestamp: 69
+  - timestamp: 70.3
+  - timestamp: 72.3
+  - timestamp: 73
+  - timestamp: 74
+  - timestamp: 74.3
+  - timestamp: 75.6
+  - timestamp: 77
+  - timestamp: 78.3
+  - timestamp: 79.3
+  - timestamp: 79.6
+  - timestamp: 81
+  - timestamp: 82.3
+  - timestamp: 88.3
+  - timestamp: 89
+  - timestamp: 89.6
+  - timestamp: 90.3
+  - timestamp: 91.6
+  - timestamp: 93
+  - timestamp: 98.3
+  levelDuration: 110
   targetScore: 10000
-  perfectScore: 1000
-  goodScore: 500
-  missPenalty: 1500
+  perfectScore: 100
+  goodScore: 75
+  missPenalty: 50
   notePrefab: {fileID: 1572946567560023603, guid: 527593221521a134fbf606f3f91e50b0, type: 3}
   spawnArea: {fileID: 1370334664}
   harmonyImage: {fileID: 1988816840}

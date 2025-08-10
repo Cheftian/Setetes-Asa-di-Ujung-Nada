@@ -244,24 +244,148 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   songClip: {fileID: 8300000, guid: 1e664735879b950408855f6d997f6f39, type: 3}
   notes:
-  - timestamp: 1
-  - timestamp: 3
-  - timestamp: 5
-  - timestamp: 7
+  - timestamp: 8.3
+  - timestamp: 8.6
   - timestamp: 9
-  - timestamp: 11
-  - timestamp: 13
+  - timestamp: 9.3
+  - timestamp: 9.6
+  - timestamp: 10.3
+  - timestamp: 13.6
+  - timestamp: 14
+  - timestamp: 14.3
+  - timestamp: 14.6
   - timestamp: 15
+  - timestamp: 15.6
   - timestamp: 17
-  - timestamp: 20
+  - timestamp: 18.3
+  - timestamp: 19.6
   - timestamp: 21
-  - timestamp: 23
+  - timestamp: 22.3
+  - timestamp: 23.6
   - timestamp: 25
-  levelDuration: 30
+  - timestamp: 26.3
+  - timestamp: 27.6
+  - timestamp: 29.6
+  - timestamp: 30
+  - timestamp: 31
+  - timestamp: 31.6
+  - timestamp: 35
+  - timestamp: 35.3
+  - timestamp: 35.6
+  - timestamp: 37
+  - timestamp: 37.3
+  - timestamp: 37.6
+  - timestamp: 38
+  - timestamp: 38.3
+  - timestamp: 38.6
+  - timestamp: 39
+  - timestamp: 39.3
+  - timestamp: 39.6
+  - timestamp: 40.3
+  - timestamp: 40.6
+  - timestamp: 41
+  - timestamp: 41.6
+  - timestamp: 42.3
+  - timestamp: 45.6
+  - timestamp: 46
+  - timestamp: 46.3
+  - timestamp: 47.6
+  - timestamp: 48
+  - timestamp: 48.3
+  - timestamp: 48.6
+  - timestamp: 49
+  - timestamp: 49.3
+  - timestamp: 49.6
+  - timestamp: 50
+  - timestamp: 51
+  - timestamp: 52.3
+  - timestamp: 53
+  - timestamp: 55
+  - timestamp: 55.6
+  - timestamp: 57
+  - timestamp: 57.3
+  - timestamp: 57.6
+  - timestamp: 58
+  - timestamp: 58.3
+  - timestamp: 59
+  - timestamp: 59.3
+  - timestamp: 60.3
+  - timestamp: 60.6
+  - timestamp: 61.6
+  - timestamp: 62.3
+  - timestamp: 62.6
+  - timestamp: 63
+  - timestamp: 63.3
+  - timestamp: 63.6
+  - timestamp: 65.6
+  - timestamp: 66
+  - timestamp: 66.3
+  - timestamp: 67.6
+  - timestamp: 68
+  - timestamp: 68.3
+  - timestamp: 68.6
+  - timestamp: 69
+  - timestamp: 70.3
+  - timestamp: 72.3
+  - timestamp: 72.6
+  - timestamp: 73
+  - timestamp: 73.6
+  - timestamp: 74.3
+  - timestamp: 75
+  - timestamp: 75.3
+  - timestamp: 76.3
+  - timestamp: 77
+  - timestamp: 77.6
+  - timestamp: 78
+  - timestamp: 78.3
+  - timestamp: 79.6
+  - timestamp: 80
+  - timestamp: 80.3
+  - timestamp: 80.6
+  - timestamp: 81
+  - timestamp: 81.3
+  - timestamp: 81.6
+  - timestamp: 82
+  - timestamp: 82.3
+  - timestamp: 83
+  - timestamp: 83.3
+  - timestamp: 83.6
+  - timestamp: 84.3
+  - timestamp: 85
+  - timestamp: 85.6
+  - timestamp: 86
+  - timestamp: 86.3
+  - timestamp: 87
+  - timestamp: 87.6
+  - timestamp: 88.3
+  - timestamp: 88.6
+  - timestamp: 89
+  - timestamp: 90.3
+  - timestamp: 90.6
+  - timestamp: 91
+  - timestamp: 91.3
+  - timestamp: 91.6
+  - timestamp: 92
+  - timestamp: 92.3
+  - timestamp: 92.6
+  - timestamp: 104.3
+  - timestamp: 104.6
+  - timestamp: 105
+  - timestamp: 105.3
+  - timestamp: 105.6
+  - timestamp: 106.3
+  - timestamp: 109.6
+  - timestamp: 110
+  - timestamp: 110.3
+  - timestamp: 110.6
+  - timestamp: 111
+  - timestamp: 111.6
+  - timestamp: 113
+  levelDuration: 120
   targetScore: 10000
-  perfectScore: 1000
-  goodScore: 500
-  missPenalty: 1500
+  perfectScore: 50
+  goodScore: 25
+  missPenalty: 15
   notePrefab: {fileID: 1572946567560023603, guid: 527593221521a134fbf606f3f91e50b0, type: 3}
   spawnArea: {fileID: 1370334664}
   harmonyImage: {fileID: 1988816840}
