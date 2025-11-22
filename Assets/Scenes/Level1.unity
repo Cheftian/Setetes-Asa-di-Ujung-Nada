@@ -288,15 +288,16 @@ MonoBehaviour:
   - timestamp: 119.6
   levelDuration: 133.5
   targetScore: 10000
-  perfectScore: 200
-  goodScore: 150
+  perfectScore: 170
+  goodScore: 120
   missPenalty: 75
   notePrefab: {fileID: 1572946567560023603, guid: 527593221521a134fbf606f3f91e50b0, type: 3}
   spawnArea: {fileID: 1370334664}
+  maxSpawnDistance: 4
   harmonyImage: {fileID: 1988816840}
   comboImage: {fileID: 1065094994}
-  comboActiveSprite: {fileID: 21300000, guid: 996c9a627c8251c498cb5dd02d45e039, type: 3}
   scoreText: {fileID: 1645388071}
+  comboActiveSprite: {fileID: 21300000, guid: 996c9a627c8251c498cb5dd02d45e039, type: 3}
   nextSceneName: Interlude1
   gameOverPanel: {fileID: 680056405}
   currentBackground: {fileID: 908128402}
@@ -2344,6 +2345,7 @@ RectTransform:
   - {fileID: 1997997118}
   - {fileID: 1065094993}
   - {fileID: 1645388070}
+  - {fileID: 1822785934}
   m_Father: {fileID: 2065360184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2672,6 +2674,110 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763682657}
   m_CullTransparentMesh: 1
+--- !u!1 &1822785933
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1822785934}
+  - component: {fileID: 1822785936}
+  - component: {fileID: 1822785935}
+  - component: {fileID: 1822785938}
+  - component: {fileID: 1822785937}
+  m_Layer: 5
+  m_Name: Guide
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1822785934
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822785933}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1658435616}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 489.9332, y: 489.9332}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1822785935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822785933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 855067733875592807, guid: 95b5b3510df301f40a026094bb6c592c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1822785936
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822785933}
+  m_CullTransparentMesh: 1
+--- !u!114 &1822785937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822785933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66a1cf92a6446e84685ad6faa4729cb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startDelay: 1
+  displayDuration: 15
+  fadeDuration: 0.5
+--- !u!225 &1822785938
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822785933}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1895989461
 GameObject:
   m_ObjectHideFlags: 0

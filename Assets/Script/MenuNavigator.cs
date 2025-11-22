@@ -5,7 +5,7 @@ public class MenuNavigator : MonoBehaviour
 {
     public void PlayGame()
     {
-        SceneManager.LoadScene("Level3");
+        SceneManager.LoadScene("Prologue");
     }
 
     public void OpenSettings()

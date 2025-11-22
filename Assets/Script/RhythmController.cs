@@ -97,19 +97,31 @@ public class RhythmController : MonoBehaviour
 
         songTime = AudioManager.Instance.BGMSource.time;
 
-        if (songTime >= levelDuration) 
-        {
-            EndLevel();
-            return;
-        }
+        if (songTime >= levelDuration) { EndLevel(); return; }
         
         if (nextNoteIndex < notes.Count && songTime >= notes[nextNoteIndex].timestamp)
         {
-            SpawnNote();
+            bool isChainNote = IsChainNote(nextNoteIndex);
+            Vector2 spawnPosition = GenerateNextNotePosition();
+            
+            GameObject noteGO = Instantiate(notePrefab, spawnPosition, Quaternion.identity);
+            NoteObject newNoteObject = noteGO.GetComponent<NoteObject>();
+            newNoteObject.Initialize(this);
+            
+            // PERUBAHAN UTAMA: Logika memberi "tongkat estafet"
+            if (isChainNote && lastNoteObject != null)
+            {
+                // Nada baru (depan) diberi tugas untuk mengaktifkan nada lama (belakang)
+                newNoteObject.SetNoteToActivate(lastNoteObject);
+                // Nada lama (belakang) disuruh tidur (menjadi gelap & non-aktif)
+                lastNoteObject.BecomeBackgroundNote();
+            }
+            
+            lastNoteObject = newNoteObject;
+            isFirstNote = false;
             nextNoteIndex++;
         }
     }
-    
     void SpawnNote()
     {
         Vector2 spawnPosition = GenerateNextNotePosition();

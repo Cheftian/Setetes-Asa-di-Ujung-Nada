@@ -28,6 +28,7 @@ public class NoteObject : MonoBehaviour
     private Collider2D noteCollider; // BARU: Simpan referensi collider
 
     private Vector3 initialPosition;
+    private NoteObject noteToActivate = null;
 
     void Awake()
     {
@@ -76,6 +77,7 @@ public class NoteObject : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.PlaySFX("Bubble-miss");
             rhythmController.NoteMissed();
             Destroy(gameObject);
         }
@@ -88,6 +90,12 @@ public class NoteObject : MonoBehaviour
     private void OnMouseDown()
     {
         AudioManager.Instance.PlaySFX("Button-click");
+
+        if (noteToActivate != null)
+        {
+            noteToActivate.BecomeActiveNote();
+        }
+
         Accuracy accuracy;
         if (timer >= growDuration && timer < growDuration + perfectWindowDuration)
         {
@@ -110,7 +118,17 @@ public class NoteObject : MonoBehaviour
     {
         SetState(false);
     }
+
+    public void BecomeActiveNote()
+    {
+        SetState(true);
+    }
     
+    public void SetNoteToActivate(NoteObject note)
+    {
+        noteToActivate = note;
+    }
+
     private void SetState(bool isBright)
     {
         if (isBright)
